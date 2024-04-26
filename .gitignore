@@ -1,0 +1,9 @@
+../fullstack-javascript-project-6/.idea/
+.vscode/
+node_modules/
+build/
+dist/
+tmp/
+temp/
+database.sqlite
+.env
