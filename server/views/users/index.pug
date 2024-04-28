@@ -1,15 +1,24 @@
 extends ../layouts/application
 
 block content
-  table.table.table-striped
+
+  h1.display-4.fw-bold.mt-4= t('layouts.application.users')
+  table.table.table-striped.table-hover.table-responsive
     thead
       tr
         th= t('views.users.id')
+        th= t('views.users.fullName')
         th= t('views.users.email')
         th= t('views.users.createdAt')
+        th= t('views.users.actions')
     tbody
       each user in users
         tr
-          td= user.id
-          td= user.email
-          td= formatDate(user.createdAt)
+          td.align-middle= user.id
+          td.align-middle= `${user.firstName} ${user.lastName}`
+          td.align-middle= user.email
+          td.align-middle= formatDate(user.createdAt)
+          td
+            .d-flex.flex-wrap
+              a.btn.btn-primary.me-1(href=`/users/${user.id}/edit`)= t('views.users.update')
+              button.btn.btn-danger.ml-1(type="button", onclick=`deleteUser(${user.id})`)= t('views.users.delete')
