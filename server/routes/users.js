@@ -14,6 +14,7 @@ export default (app) => {
       reply.render('users/new', { user });
     })
     .post('/users', async (req, reply) => {
+      console.log(req.body.data)
       const user = new app.objection.models.user();
       user.$set(req.body.data);
 

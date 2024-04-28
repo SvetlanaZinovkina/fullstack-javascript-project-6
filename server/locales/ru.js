@@ -39,7 +39,14 @@ export default {
       users: {
         id: 'ID',
         email: 'Email',
+        firstName: 'Имя',
+        lastName: 'Фамилия',
+        password: 'Пароль',
+        fullName: 'Полное имя',
         createdAt: 'Дата создания',
+        actions: 'Действия',
+        update: 'Изменить',
+        delete: 'Удалить',
         new: {
           submit: 'Сохранить',
           signUp: 'Регистрация',
