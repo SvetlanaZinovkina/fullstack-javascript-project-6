@@ -1,0 +1,21 @@
+extends ../layouts/application
+
+block header
+    = t('layouts.application.update')
+
+block content
+    form(action=`/users/${user.id}`, method='post')
+        .form-floating.mb-3
+            input.form-control(id='data_firstName', name='data[firstName]', value=user.firstName, placeholder=t('views.users.firstName'), type='text')
+            label(for='data_firstName')= t('views.users.firstName')
+        .form-floating.mb-3
+            input.form-control(id='data_lastName', name='data[lastName]', value=user.lastName, placeholder=t('views.users.lastName'), type='text')
+            label(for='data_lastName')= t('views.users.lastName')
+        .form-floating.mb-3
+            input.form-control(id='data_email', name='data[email]', value=user.email, placeholder=t('views.session.new.email'), type='text')
+            label(for='data_email')= t('views.session.new.email')
+        .form-floating.mb-3
+            input.form-control(id='data_password', name='data[password]', value='', placeholder=t('views.session.new.password'), type='password')
+            label(for='data_password')= t('views.session.new.password')
+        input(type='hidden', name='_method', value='patch')
+        input.btn.btn-primary(type='submit', value=t('views.users.update'))

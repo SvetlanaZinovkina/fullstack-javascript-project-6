@@ -1,10 +1,26 @@
 extends ../layouts/application
 
 block header
-  = t('views.session.new.signIn')
+  h1.display-4.fw-bold.mt-4.text-center= t('views.session.new.signIn')
 
 block content
-  +formFor()(action=route('session') method='post')
-    +input(signInForm, 'email', errors)(type="text")
-    +input(signInForm, 'password')(type="password")
-    +submit(signInForm)(value=t('views.session.new.submit'))
+  //+formFor()(action=route('session') method='post')
+    //+input(signInForm, 'email', errors)(type="text")
+    //+input(signInForm, 'password')(type="password")
+    //+submit(signInForm)(value=t('views.session.new.submit'))
+  .container.wrapper.flex-grow-1
+    .row.justify-content-center
+      .col-12.col-md-8
+        .card.shadow-sm
+          .card-body.row.p-5
+            .col-12.col-md-6.d-flex.align-items-center.justify-content-center
+              img.rounded-circle(src='../assets/welcome.png')
+            .col-12.col-md-6.mt-3.mt-mb-0
+              form(action=route('session'), method='post')
+                .form-floating.mb-3
+                  input.form-control(id='data_email', name='data[email]', value='', placeholder=t('views.session.new.email'), type='text')
+                  label(for='data_email')= t('views.session.new.email')
+                .form-floating.mb-3
+                  input.form-control(id='data_password', name='data[password]', value='', placeholder=t('views.session.new.password'), type='password')
+                  label(for='data_password')= t('views.session.new.password')
+                input.btn.btn-primary(type='submit', value=t('views.session.new.submit'))

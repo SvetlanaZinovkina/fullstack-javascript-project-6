@@ -13,8 +13,25 @@ export default (app) => {
       const user = new app.objection.models.user();
       reply.render('users/new', { user });
     })
+    .get('/users/:id/edit', { name: 'currentUser' }, async (req, reply) => {
+      const user = await app.objection.models.user.query().findById(req.params.id);
+
+      if (!req.user) {
+        req.flash('error', i18next.t('flash.authError'));
+        reply.redirect(app.reverse('root'));
+        return reply;
+      }
+
+      if (req.user.id !== Number(user.id)) {
+        req.flash('error', i18next.t('flash.accessError'));
+        reply.redirect(app.reverse('users'));
+        return reply;
+      }
+      reply.render('/users/update', { user });
+      return reply;
+    })
     .post('/users', async (req, reply) => {
-      console.log(req.body.data)
+      console.log(req.body.data);
       const user = new app.objection.models.user();
       user.$set(req.body.data);
 
