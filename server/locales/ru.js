@@ -20,6 +20,7 @@ export default {
         },
       },
       authError: 'Доступ запрещён! Пожалуйста, авторизируйтесь.',
+      accessError: 'Вы не можете редактировать или удалять другого пользователя',
     },
     layouts: {
       application: {
@@ -27,13 +28,16 @@ export default {
         signIn: 'Вход',
         signUp: 'Регистрация',
         signOut: 'Выход',
+        update: 'Изменение пользователя',
       },
     },
     views: {
       session: {
         new: {
           signIn: 'Вход',
+          email: 'Email',
           submit: 'Войти',
+          password: 'Пароль',
         },
       },
       users: {
