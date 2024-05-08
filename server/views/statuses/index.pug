@@ -1,0 +1,25 @@
+extends ../layouts/application
+
+block content
+
+  h1.display-4.fw-bold.mt-4= t('views.statuses.statuses')
+  a.btn.btn-primary(href='/statuses/new')= t('views.statuses.createStatus')
+  table.table.table-striped.table-hover.table-responsive
+    thead
+      tr
+        th= t('views.statuses.id')
+        th= t('views.statuses.name')
+        th= t('views.statuses.createdAt')
+        th= t('views.users.actions')
+    tbody
+      each status in statuses
+        tr
+          td.align-middle= status.id
+          td.align-middle= status.name
+          td.align-middle= formatDate(status.createdAt)
+          td
+            .d-flex.flex-wrap
+              a.btn.btn-primary.me-1(href=`/statuses/${status.id}/edit`)= t('views.statuses.update')
+              form(action=`/statuses/${status.id}`, method="post")
+                input(type="hidden", name="_method", value="delete")
+                input(type="submit", class="btn btn-danger", value=t('views.statuses.delete'))
