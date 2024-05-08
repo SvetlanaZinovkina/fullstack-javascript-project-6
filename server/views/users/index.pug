@@ -21,4 +21,7 @@ block content
           td
             .d-flex.flex-wrap
               a.btn.btn-primary.me-1(href=`/users/${user.id}/edit`)= t('views.users.update')
-              button.btn.btn-danger.ml-1(type="button", onclick=`deleteUser(${user.id})`)= t('views.users.delete')
+              form(action=`/users/${user.id}`, method="post")
+                input(type="hidden", name="_method", value="delete")
+                input(type="submit", class="btn btn-danger", value=t('views.users.delete'))
+
