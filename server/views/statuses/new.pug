@@ -1,0 +1,21 @@
+extends ../layouts/application
+
+block header
+    = t('views.statuses.new.newStatus')
+
+block content
+
+    form(action=route('statuses'), method="post")
+        .form-floating.mb-3
+            input.form-control(
+                id="data_name",
+                name="data[name]", value="",
+                placeholder=t('views.statuses.name'),
+                type="text",
+                class=errors ? 'is-invalid' : ''
+                )
+            label(for="data_name")= t('views.statuses.name')
+            if errors
+                    .form-control-feedback.invalid-feedback= errors
+        input.btn.btn-primary(type="submit", value=t('views.statuses.new.submit'))
+
