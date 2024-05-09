@@ -8,7 +8,25 @@ export default (app) => {
       return reply;
     })
     .get('/statuses/new', { name: 'newStatuses', preValidation: app.authenticate }, (req, reply) => {
-      const signInForm = {};
-      reply.render('session/new', { signInForm });
+      const status = new app.objection.models.status();
+      reply.render('statuses/new', { status });
+
+      return reply;
+    })
+    .post('/statuses', async (req, reply) => {
+      const status = new app.objection.models.status();
+      status.$set(req.body.data);
+
+      try {
+        const validStatus = await app.objection.models.status.fromJson(req.body.data);
+        await app.objection.models.status.query().insert(validStatus);
+        req.flash('info', i18next.t('flash.statuses.create.success'));
+        reply.redirect(app.reverse('root'));
+      } catch ({ data }) {
+        req.flash('error', i18next.t('flash.statuses.create.error'));
+        reply.render('statuses/new', { status, errors: data });
+      }
+
+      return reply;
     });
 };
