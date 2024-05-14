@@ -13,6 +13,12 @@ export default (app) => {
 
       return reply;
     })
+    .get('/statuses/:id/edit', { name: 'currentStatus' }, async (req, reply) => {
+      const status = await app.objection.models.status.query().findById(req.params.id);
+
+      reply.render('/statuses/update', { status });
+      return reply;
+    })
     .post('/statuses', async (req, reply) => {
       const status = new app.objection.models.status();
       status.$set(req.body.data);
@@ -21,12 +27,24 @@ export default (app) => {
         const validStatus = await app.objection.models.status.fromJson(req.body.data);
         await app.objection.models.status.query().insert(validStatus);
         req.flash('info', i18next.t('flash.statuses.create.success'));
-        reply.redirect(app.reverse('root'));
+        reply.redirect('/statuses');
       } catch ({ data }) {
         req.flash('error', i18next.t('flash.statuses.create.error'));
         reply.render('statuses/new', { status, errors: data.name });
       }
 
       return reply;
+    })
+    .patch('/statuses/:id', { name: 'updateStatus', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
+
+      try {
+        await req.status.$query().update(req.body.data);
+        req.flash('info', i18next.t('flash.statuses.update.success'));
+        reply.redirect('/statuses');
+      } catch ({ data }) {
+        req.flash('error', i18next.t('flash.users.updateStatus.error'));
+        reply.redirect((`/statuses/${id}/edit`), { errors: data });
+      }
     });
 };
