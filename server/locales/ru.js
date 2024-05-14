@@ -22,6 +22,10 @@ export default {
           error: 'Не удалось удалить',
           success: 'Пользователь успешно удалён',
         },
+        update: {
+          error: 'Не удалось изменить',
+          success: 'Пользователь успешно изменён',
+        },
       },
       statuses: {
         create: {
@@ -31,6 +35,10 @@ export default {
         delete: {
           error: 'Не удалось удалить',
           success: 'Статус успешно удалён',
+        },
+        update: {
+          error: 'Не удалось изменить',
+          success: 'Статус успешно изменён',
         },
       },
       authError: 'Доступ запрещён! Пожалуйста, авторизируйтесь.',
@@ -86,11 +94,15 @@ export default {
         createdAt: 'Дата создания',
         createStatus: 'Создать статус',
         statuses: 'Статусы',
-        update: 'Изменить',
+        updateStatus: 'Изменить',
         delete: 'Удалить',
         new: {
           submit: 'Создать',
           newStatus: 'Создание статуса',
+        },
+        update: {
+          submit: 'Изменить',
+          updateStatus: 'Изменение статуса',
         },
       },
     },
