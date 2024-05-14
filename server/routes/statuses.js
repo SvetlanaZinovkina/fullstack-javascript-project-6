@@ -46,5 +46,25 @@ export default (app) => {
         req.flash('error', i18next.t('flash.users.updateStatus.error'));
         reply.redirect((`/statuses/${id}/edit`), { errors: data });
       }
+    })
+    .delete('/statuses/:id', { name: 'deleteStatus', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
+      const status = await app.objection.models.status.query().findById(id);
+      const statusTasks = await status.$relatedQuery('tasks');
+
+      if (statusTasks.length) {
+        req.flash('error', i18next.t('flash.statuses.delete.error'));
+        return reply.redirect(app.reverse('statuses'));
+      }
+
+      try {
+        await app.objection.models.status.query().deleteById(id);
+        req.flash('info', i18next.t('flash.statuses.delete.success'));
+      } catch (errors) {
+        req.flash('error', i18next.t('flash.statuses.delete.error'));
+      }
+      reply.redirect(app.reverse('statuses'));
+
+      return reply;
     });
 };
