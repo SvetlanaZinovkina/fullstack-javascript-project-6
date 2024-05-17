@@ -19,8 +19,9 @@ export default (app) => {
       reply.render('/statuses/update', { status });
       return reply;
     })
-    .post('/statuses', async (req, reply) => {
+    .post('/statuses', { preValidation: app.authenticate }, async (req, reply) => {
       const status = new app.objection.models.status();
+      const { id: creatorId } = req.user;
       status.$set(req.body.data);
 
       try {
