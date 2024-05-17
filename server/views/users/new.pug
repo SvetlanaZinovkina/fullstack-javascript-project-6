@@ -16,10 +16,10 @@ block content
             value="",
             placeholder=t('views.users.firstName'),
             type="text",
-            class=errors?.firstName ? 'is-invalid' : ''
+            class=(errors && errors.firstName) ? 'is-invalid' : ''
           )
           label(for="data_firstName")= t('views.users.firstName')
-          if errors?.firstName
+          if errors && errors.firstName
             .form-control-feedback.invalid-feedback
               each error in errors.firstName
                 p= error.message
@@ -31,10 +31,10 @@ block content
             value="",
             placeholder=t('views.users.lastName'),
             type="text",
-            class=errors?.lastName ? 'is-invalid' : ''
+            class=(errors && errors.lastName) ? 'is-invalid' : ''
           )
           label(for="data_lastName")= t('views.users.lastName')
-          if errors?.lastName
+          if errors && errors.lastName
             .form-control-feedback.invalid-feedback
               each error in errors.lastName
                 p= error.message
@@ -46,10 +46,10 @@ block content
             value="",
             placeholder=t('views.users.email'),
             type="text",
-            class=errors?.email ? 'is-invalid' : ''
+            class=(errors && errors.email) ? 'is-invalid' : ''
           )
           label(for="data_email")= t('views.users.email')
-          if errors?.email
+          if errors && errors.email
             .form-control-feedback.invalid-feedback
               each error in errors.email
                 p= error.message
@@ -61,10 +61,10 @@ block content
             value="",
             placeholder=t('views.users.password'),
             type="password",
-            class=errors?.password ? 'is-invalid' : ''
+            class=(errors && errors.password) ? 'is-invalid' : ''
           )
           label(for="data_password")= t('views.users.password')
-          if errors?.password
+          if errors && errors.password
             .form-control-feedback.invalid-feedback
               each error in errors.password
                 p= error.message
