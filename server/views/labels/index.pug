@@ -1,0 +1,25 @@
+extends ../layouts/application
+
+block content
+
+    h1.display-4.fw-bold.mt-4= t('views.labels.labels')
+    a.btn.btn-primary(href='/labels/new')= t('views.labels.createLabel')
+    table.table.table-striped.table-hover.table-responsive.bg-white
+        thead
+            tr
+                th= t('views.labels.id')
+                th= t('views.labels.name')
+                th= t('views.labels.createdAt')
+                th= t('views.labels.actions')
+        tbody
+            each label in labels
+                tr
+                    td.align-middle= label.id
+                    td.align-middle= label.name
+                    td.align-middle= formatDate(label.createdAt)
+                    td
+                        .d-flex.flex-wrap
+                            a.btn.btn-primary.me-1(href=`/labels/${label.id}/edit`)= t('views.labels.updateLabel')
+                            form(action=`/labels/${label.id}`, method="post")
+                                input(type="hidden", name="_method", value="delete")
+                                input(type="submit", class="btn btn-danger", value=t('views.labels.delete'))

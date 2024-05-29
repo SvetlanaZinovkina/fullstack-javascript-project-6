@@ -21,7 +21,7 @@ export default (app) => {
     })
     .post('/statuses', { preValidation: app.authenticate }, async (req, reply) => {
       const status = new app.objection.models.status();
-      const { id: creatorId } = req.user;
+      // const { id: creatorId } = req.user;
       status.$set(req.body.data);
 
       try {
@@ -44,7 +44,7 @@ export default (app) => {
         req.flash('info', i18next.t('flash.statuses.update.success'));
         reply.redirect('/statuses');
       } catch ({ data }) {
-        req.flash('error', i18next.t('flash.users.updateStatus.error'));
+        req.flash('error', i18next.t('flash.statuses.update.error'));
         reply.redirect((`/statuses/${id}/edit`), { errors: data });
       }
     })
