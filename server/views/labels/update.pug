@@ -1,0 +1,12 @@
+extends ../layouts/application
+
+block header
+    = t('views.labels.update.updateLabel')
+
+block content
+    form(action=`/labels/${label.id}`, method='post')
+        .form-floating.mb-3
+            input.form-control(id='data_name', name='data[name]', value=label.name, placeholder=t('views.labels.name'), type='text')
+            label(for='data_name')= t('views.labels.name')
+        input(type='hidden', name='_method', value='patch')
+        input.btn.btn-primary(type='submit', value=t('views.labels.update.submit'))

@@ -1,8 +1,22 @@
 const BaseModel = require('./BaseModel.cjs');
+const objectionUnique = require('objection-unique');
 
-module.exports = class TaskLabel extends BaseModel {
+const unique = objectionUnique({ fields: ['name'] });
+
+module.exports = class Label extends unique(BaseModel) {
 		static get tableName() {
-				return 'tasksLabels';
+				return 'labels';
+		}
+
+		static get jsonSchema() {
+				return {
+						type: 'object',
+						required: ['name'],
+						properties: {
+								id: { type: 'integer' },
+								name: { type: 'string', minLength: 1 },
+						},
+				};
 		}
 
 		static get relationMappings() {
@@ -17,7 +31,7 @@ module.exports = class TaskLabel extends BaseModel {
 						},
 						label: {
 								relation: BaseModel.BelongsToOneRelation,
-								modelClass: 'Label.cjs',
+								modelClass: 'TaskLabels.cjs',
 								join: {
 										from: 'tasksLabels.labelId',
 										to: 'labels.id',

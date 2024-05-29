@@ -13,7 +13,10 @@ export default (app) => {
       const task = new app.objection.models.task();
       const statuses = await app.objection.models.status.query();
       const users = await app.objection.models.user.query();
-      reply.render('tasks/new', { task, statuses, users });
+      const labels = await app.objection.models.label.query();
+      reply.render('tasks/new', {
+        task, statuses, users, labels,
+      });
 
       return reply;
     })
