@@ -65,5 +65,97 @@ export default (app) => {
       }
 
       return reply;
+    })
+    .get('/tasks/:id/edit', { name: 'editTask', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
+      const task = await app.objection.models.task.query().findById(id);
+      const statuses = await app.objection.models.status.query();
+      const users = await app.objection.models.user.query();
+      const labels = await app.objection.models.label.query();
+      const selectedLabels = await task.$relatedQuery('labels').select('labels.id');
+      const selectedLabelsIds = selectedLabels.map((label) => label.id);
+
+      reply.render('tasks/edit', {
+        task, statuses, users, labels, selectedLabelsIds,
+      });
+
+      return reply;
+    })
+    .patch('/tasks/:id', { name: 'updateTask', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
+      const task = await app.objection.models.task.query().findById(id);
+      const taskData = req.body.data;
+
+      try {
+        const labelIds = taskData.labels ?? [];
+
+        const taskLabels = await task.$relatedQuery('labels');
+        const currentLabelsIds = taskLabels.map((label) => label.id);
+
+        const labelsToAdd = [...labelIds].filter((labelId) => !currentLabelsIds.includes(labelId));
+        const labelsToRemove = currentLabelsIds.filter((labelId) => !labelIds.includes(labelId));
+
+        await app.objection.models.task.transaction(async (trx) => {
+          await app.objection.models.taskLabel.query(trx)
+            .delete()
+            .where('taskId', id)
+            .whereIn('labelId', labelsToRemove);
+
+          labelsToAdd.forEach(async (labelId) => {
+            await app.objection.models.taskLabel.query(trx).insert({
+              taskId: id,
+              labelId,
+            });
+          });
+
+          await task.$query(trx).patch({
+            ...taskData,
+            statusId: Number(taskData.statusId),
+            creatorId: task.creatorId,
+            executorId: Number(taskData.executorId),
+          });
+        });
+
+        req.flash('info', i18next.t('flash.tasks.update.success'));
+        reply.redirect(app.reverse('tasks'));
+      } catch (errors) {
+        const statuses = await app.objection.models.status.query();
+        const users = await app.objection.models.user.query();
+        const labels = await app.objection.models.label.query();
+
+        task.$set(taskData);
+
+        req.flash('error', i18next.t('flash.tasks.update.error'));
+
+        reply.render('tasks/edit', {
+          task, statuses, users, labels, errors: errors.data ?? {},
+        });
+      }
+
+      return reply;
+    })
+    .delete('/tasks/:id', { name: 'deleteTask', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
+      const { id: currentUserId } = req.user;
+      const currentTask = await app.objection.models.task.query().findById(id);
+
+      if (currentUserId !== currentTask.creatorId) {
+        req.flash('error', i18next.t('flash.tasks.delete.wrongUser'));
+        return reply.redirect(app.reverse('tasks'));
+      }
+
+      try {
+        await app.objection.models.task.transaction(async (trx) => {
+          await currentTask.$relatedQuery('labels', trx).unrelate();
+          await app.objection.models.task.query(trx).deleteById(id);
+        });
+        req.flash('info', i18next.t('flash.tasks.delete.success'));
+        reply.redirect(app.reverse('tasks'));
+      } catch (errors) {
+        req.flash('error', i18next.t('flash.tasks.delete.error'));
+        reply.redirect(app.reverse('tasks'));
+      }
+
+      return reply;
     });
 };
