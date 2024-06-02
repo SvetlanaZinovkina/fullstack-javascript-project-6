@@ -2,8 +2,10 @@
 
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config();
 
 const migrations = {
   directory: path.join(__dirname, 'server', 'migrations'),
@@ -28,7 +30,13 @@ export const test = {
 
 export const production = {
   client: 'pg',
-  connection: process.env.DB_CONNECTION,
+  connection: {
+    host: process.env.PGHOST,
+    port: process.env.PGPORT,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    database: process.env.PGDATABASE,
+  },
   useNullAsDefault: true,
   migrations,
 };

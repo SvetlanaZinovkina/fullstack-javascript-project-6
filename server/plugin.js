@@ -17,6 +17,7 @@ import qs from 'qs';
 import Pug from 'pug';
 import i18next from 'i18next';
 
+import dotenv from 'dotenv';
 import ru from './locales/ru.js';
 import en from './locales/en.js';
 // @ts-ignore
@@ -27,7 +28,7 @@ import models from './models/index.js';
 import FormStrategy from './lib/passportStrategies/FormStrategy.js';
 
 const __dirname = fileURLToPath(path.dirname(import.meta.url));
-
+dotenv.config();
 const mode = process.env.NODE_ENV || 'development';
 // const isDevelopment = mode === 'development';
 
