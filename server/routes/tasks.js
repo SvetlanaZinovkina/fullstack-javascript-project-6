@@ -31,8 +31,8 @@ export default (app) => {
         name,
         description,
         statusId: Number(statusId),
-        executorId: Number(executorId),
         creatorId: Number(creatorId),
+        executorId: Number(executorId),
       };
 
       const labelsIds = [...labelsList].map((id) => ({ id: Number(id) }));
