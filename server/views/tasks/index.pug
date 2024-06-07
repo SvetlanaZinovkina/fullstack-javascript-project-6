@@ -46,13 +46,18 @@ block content
                 tr
                     each task in tasks
                         td= task.id
-                        td= task.name
-                        td= task.statusId
-                        td= task.creatorId
-                        td= task.executorId
-                        td= task.created_at
-                        .d-flex
-                            a.btn.btn-primary.me-1(href=`/tasks/${task.id}/edit`)= t('views.tasks.update.submit')
-                            form(action=`/tasks/${task.id}`, method='post')
-                                input(name='_method', type='hidden', value='delete')
-                                input.btn.btn-danger(type='submit', value=t('views.tasks.delete'))
+                        td
+                            a(href = `/tasks/${task.id}`)= task.name
+                        td= task.status.name
+                        td= `${task.creator.firstName} ${task.creator.lastName}`
+                        if !task.executor
+                            td.align-middle= ''
+                        else
+                            td.align-middle= `${task.executor.firstName} ${task.executor.lastName}`
+                        td= formatDate(task.createdAt)
+                        td
+                            .d-flex
+                                a.btn.btn-primary.me-1(href=`/tasks/${task.id}/edit`)= t('views.tasks.update.submit')
+                                form(action=`/tasks/${task.id}`, method='post')
+                                    input(name='_method', type='hidden', value='delete')
+                                    input.btn.btn-danger(type='submit', value=t('views.tasks.delete'))
