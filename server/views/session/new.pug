@@ -4,10 +4,7 @@ block header
   h1.display-4.fw-bold.mt-4.text-center= t('views.session.new.signIn')
 
 block content
-  //+formFor()(action=route('session') method='post')
-    //+input(signInForm, 'email', errors)(type="text")
-    //+input(signInForm, 'password')(type="password")
-    //+submit(signInForm)(value=t('views.session.new.submit'))
+
   .container.wrapper.flex-grow-1
     .row.justify-content-center
       .col-12.col-md-8

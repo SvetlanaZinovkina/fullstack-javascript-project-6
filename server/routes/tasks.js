@@ -39,6 +39,13 @@ export default (app) => {
 
       return reply;
     })
+    .get('/tasks/:id', { name: 'specificTask', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
+      const task = await app.objection.models.task.query().findById(id).withGraphFetched('[status, creator, executor, labels]');
+      reply.render('tasks/task', { task });
+
+      return reply;
+    })
     .post('/tasks', async (req, reply) => {
       const { id: creatorId } = req.user;
       const task = new app.objection.models.task();
