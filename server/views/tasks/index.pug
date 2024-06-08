@@ -45,17 +45,17 @@ block content
             tbody
                 tr
                     each task in tasks
-                        td= task.id
-                        td
+                        td.align-middle= task.id
+                        td.align-middle
                             a(href = `/tasks/${task.id}`)= task.name
-                        td= task.status.name
-                        td= `${task.creator.firstName} ${task.creator.lastName}`
+                        td.align-middle= task.status.name
+                        td.align-middle= `${task.creator.firstName} ${task.creator.lastName}`
                         if !task.executor
                             td.align-middle= ''
                         else
                             td.align-middle= `${task.executor.firstName} ${task.executor.lastName}`
-                        td= formatDate(task.createdAt)
-                        td
+                        td.align-middle= formatDate(task.createdAt)
+                        td.align-middle
                             .d-flex
                                 a.btn.btn-primary.me-1(href=`/tasks/${task.id}/edit`)= t('views.tasks.update.submit')
                                 form(action=`/tasks/${task.id}`, method='post')

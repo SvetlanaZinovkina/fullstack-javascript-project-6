@@ -1,0 +1,48 @@
+extends ../layouts/application
+
+block header
+    = t('views.tasks.update.updateTasks')
+
+block content
+
+    form(action=`/tasks/${task.id}` method="post")
+        .form-floating.mb-3
+            input.form-control(
+                id="data_name" name="data[name]"
+                value=task.name
+                placeholder=t('views.tasks.nameTask')
+                type="text"
+                class=(errors && errors.name) ? 'is-invalid' : ''
+            )
+            label(for="data_name")= t('views.tasks.nameTask')
+            if errors && errors.name
+                .form-control-feedback.invalid-feedback
+                    each error in errors.name
+                        p= error.message
+        .mb-3
+            label(for="data_description")= t('views.tasks.describe')
+            textarea.form-control(id="data_description" name="data[description]" rows="3")= task.description
+        .mb-3
+            label(for="data_statusId")= t('views.tasks.status')
+            select.form-control(id="data_statusId" name="data[statusId]" class=(errors && errors.statusId) ? 'is-invalid' : '')
+                option(value='')
+                    each status in statuses
+                        option(value=status.id selected=(task.statusId === status.id))= status.name
+            if errors && errors.statusId
+                .form-control-feedback.invalid-feedback
+                    each error in errors.statusId
+                        p= error.message
+        .mb-3
+            label(for="data_executorId")= t('views.tasks.executor')
+            select.form-control(id="data_executorId" name="data[executorId]")
+                option(value='')
+                    each user in users
+                        option(value=user.id selected=(task.executorId === user.id))= user.firstName
+        .mb-3
+            label(for="data_labels")= t('views.tasks.labels')
+            select.form-control(id="data_labels" name="data[labels]" multiple="multiple")
+                each label in labels
+                    option(value=label.id)= label.name
+        input(type='hidden', name='_method', value='patch')
+        input.btn.btn-primary(type="submit" value=t('views.tasks.update.submit'))
+
