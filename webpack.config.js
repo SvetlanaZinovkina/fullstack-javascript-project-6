@@ -34,7 +34,7 @@ export default {
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       title: 'Task manager',
-      favicon: './assets/favicon.ico',
+      favicon: './src/assets/favicon.ico',
     }),
   ],
 };
