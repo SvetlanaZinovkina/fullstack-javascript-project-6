@@ -108,56 +108,48 @@ export default (app) => {
       return reply;
     })
     .patch('/tasks/:id', { name: 'updateTask', preValidation: app.authenticate }, async (req, reply) => {
-      const { id } = req.params;
-      const task = await app.objection.models.task.query().findById(id);
-      const taskData = req.body.data;
+      const { models } = app.objection;
+      const taskId = Number(req.params.id);
+      const selectedTask = await models.task.query().findById(taskId);
+      const formData = new models.task().$set(req.body.data);
+      const existingLabels = [req.body.data.labels].flat()
+        .map((labelId) => ({ id: Number(labelId) }));
+      const taskData = {
+        ...formData,
+        name: formData.name.trim(),
+        creatorId: Number(selectedTask.creatorId),
+        statusId: Number(formData.statusId),
+        executorId: Number(formData.executorId),
+      };
+      const statuses = await models.status.query();
+      const users = await models.user.query();
+      const labels = await models.label.query();
+      const selectedLabels = await models.task.relatedQuery('labels').for(selectedTask);
+      const selectedLabelsIds = selectedLabels.map((label) => label?.id);
 
       try {
-        const labelIds = taskData.labels ?? [];
-
-        const taskLabels = await task.$relatedQuery('labels');
-        const currentLabelsIds = taskLabels.map((label) => label.id);
-
-        const labelsToAdd = [...labelIds].filter((labelId) => !currentLabelsIds.includes(labelId));
-        const labelsToRemove = currentLabelsIds.filter((labelId) => !labelIds.includes(labelId));
-
-        await app.objection.models.task.transaction(async (trx) => {
-          await app.objection.models.taskLabel.query(trx)
-            .delete()
-            .where('taskId', id)
-            .whereIn('labelId', labelsToRemove);
-
-          labelsToAdd.forEach(async (labelId) => {
-            await app.objection.models.taskLabel.query(trx).insert({
-              taskId: id,
-              labelId,
+        const validTaskData = await models.task.fromJson(taskData);
+        await models.task.transaction(async (trx) => {
+          const updatedTask = await models.task.query(trx)
+            .upsertGraph({ id: taskId, ...validTaskData, labels: existingLabels }, {
+              relate: true, unrelate: true,
             });
-          });
-
-          await task.$query(trx).patch({
-            ...taskData,
-            statusId: Number(taskData.statusId),
-            creatorId: task.creatorId,
-            executorId: Number(taskData.executorId),
-          });
+          return updatedTask;
         });
-
         req.flash('info', i18next.t('flash.tasks.update.success'));
         reply.redirect(app.reverse('tasks'));
-      } catch (errors) {
-        const statuses = await app.objection.models.status.query();
-        const users = await app.objection.models.user.query();
-        const labels = await app.objection.models.label.query();
-
-        task.$set(taskData);
-
+      } catch (error) {
+        console.log(error.data);
         req.flash('error', i18next.t('flash.tasks.update.error'));
-
         reply.render('tasks/edit', {
-          task, statuses, users, labels, errors: errors.data ?? {},
+          task: { ...selectedTask, ...formData },
+          statuses,
+          users,
+          labels,
+          selectedLabelsIds,
+          errors: error.data,
         });
       }
-
       return reply;
     })
     .delete('/tasks/:id', { name: 'deleteTask', preValidation: app.authenticate }, async (req, reply) => {

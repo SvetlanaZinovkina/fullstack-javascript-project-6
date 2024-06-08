@@ -43,8 +43,8 @@ block content
                     th.py-3= t('views.tasks.createdAt')
                     th.py-3= t('views.tasks.actions')
             tbody
-                tr
-                    each task in tasks
+                each task in tasks
+                    tr
                         td.align-middle= task.id
                         td.align-middle
                             a(href = `/tasks/${task.id}`)= task.name
