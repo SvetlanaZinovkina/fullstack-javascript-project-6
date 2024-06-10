@@ -129,6 +129,9 @@ describe('test users CRUD', () => {
     // после каждого теста откатываем миграции
     // await knex.migrate.rollback();
     await knex('users').truncate();
+    await knex('tasks').truncate();
+    await knex('labels').truncate();
+    await knex('statuses').truncate();
   });
 
   afterAll(async () => {
