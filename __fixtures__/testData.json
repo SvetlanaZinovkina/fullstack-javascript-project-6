@@ -15,34 +15,60 @@
   },
   "statuses": {
     "new": {
-      "name": "status1"
+      "name": "In progress"
     },
     "existing": {
-      "name": "status2"
-    }
-  },
-  "tasks": {
-    "new": {
-      "name": "task1",
-      "description": "first task",
-      "statusId": 1,
-      "creatorId": 2,
-      "executorId": 3
+      "name": "Not started"
     },
-    "existing": {
-      "name": "task2",
-      "description": "second task",
-      "statusId": 1,
-      "creatorId": 2,
-      "executorId": 3
+    "existing2": {
+      "name": "Done"
     }
   },
   "labels": {
     "new": {
-      "name": "label1"
+      "name": "Group"
     },
     "existing": {
-      "name": "label2"
+      "name": "Important"
+    },
+    "existing2": {
+      "name": "With a report"
+    }
+  },
+  "tasks": {
+    "new": {
+      "name": "Buy apples",
+      "description": "About task...",
+      "statusId": 1,
+      "creatorId": 2,
+      "executorId": 2
+    },
+    "existing": {
+      "name": "Clean the house",
+      "description": "About task...",
+      "statusId": 2,
+      "creatorId": 1,
+      "executorId": 1
+    },
+    "existing2": {
+      "name": "Go to work",
+      "description": "About task...",
+      "statusId": 1,
+      "creatorId": 2,
+      "executorId": 1
+    }
+  },
+  "tasksLabels": {
+    "new": {
+      "name": "Group"
+    },
+    "existing1": {
+      "labelId": 1,
+      "taskId": 1
+    },
+    "existing2": {
+      "labelId": 2,
+      "taskId": 1
     }
   }
 }

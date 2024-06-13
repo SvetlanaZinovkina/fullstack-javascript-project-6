@@ -2,7 +2,7 @@
 
 import fastify from 'fastify';
 import init from '../server/plugin.js';
-import { getTestData, prepareData } from './helpers';
+import { getTestData, prepareData } from './helpers/index.js';
 
 describe('test session', () => {
   let app;
@@ -56,7 +56,6 @@ describe('test session', () => {
   });
 
   afterAll(async () => {
-    // await knex.migrate.rollback();
     await app.close();
   });
 });

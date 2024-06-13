@@ -15,10 +15,17 @@ export const getTestData = () => getFixtureData('testData.json');
 export const prepareData = async (app) => {
   const { knex } = app.objection;
 
-  // получаем данные из фикстур и заполняем БД
-  await knex('users').insert(getFixtureData('users.json'));
-  await knex('statuses').insert(getFixtureData('statuses.json'));
-  await knex('tasks').insert(getFixtureData('tasks.json'));
-  await knex('labels').insert(getFixtureData('labels.json'));
-  await knex('tasksLabels').insert(getFixtureData('tasksLabels.json'));
+  const users = getFixtureData('users.json');
+  const statuses = getFixtureData('statuses.json');
+  const tasks = getFixtureData('tasks.json');
+  const labels = getFixtureData('labels.json');
+  const tasksLabels = getFixtureData('tasksLabels.json');
+
+  await knex.transaction(async (trx) => {
+    await trx('users').insert(users).onConflict('name').ignore();
+    await trx('statuses').insert(statuses).onConflict('name').ignore();
+    await trx('tasks').insert(tasks).onConflict('name').ignore();
+    await trx('labels').insert(labels).onConflict('name').ignore();
+    await trx('tasksLabels').insert(tasksLabels).onConflict('name').ignore();
+  });
 };

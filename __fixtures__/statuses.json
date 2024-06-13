@@ -1,11 +1,11 @@
 [
   {
-    "name": "status1"
+    "name": "Not started"
   },
   {
-    "name": "status2"
+    "name": "In the archive"
   },
   {
-    "name": "status3"
+    "name": "Done"
   }
 ]

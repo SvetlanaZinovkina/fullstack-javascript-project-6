@@ -10,9 +10,10 @@ export default (app) => {
       } = query;
       const tasksQuery = app.objection.models.task.query().withGraphJoined('[status, creator, executor, labels]');
 
-      tasksQuery.skipUndefined().modify('filterExecutor', executor || undefined);
-      tasksQuery.skipUndefined().modify('filterStatus', status || undefined);
-      tasksQuery.skipUndefined().modify('filterLabel', label || undefined);
+      if (executor) tasksQuery.modify('filterExecutor', executor);
+      if (status) tasksQuery.modify('filterStatus', status);
+      if (label) tasksQuery.modify('filterLabel', label);
+      if (isCreatorUser) tasksQuery.modify('filterCreator', id);
 
       if (isCreatorUser === 'on') {
         tasksQuery.skipUndefined().modify('filterCreator', id || undefined);
