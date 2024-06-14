@@ -146,6 +146,7 @@ export default {
         show: 'Показать',
         delete: 'Удалить',
         describe: 'Описание',
+        label: 'Метка',
         labels: 'Метки',
         new: {
           submit: 'Создать',

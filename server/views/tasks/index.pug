@@ -9,26 +9,11 @@ block content
             form(action='/tasks', method='get')
                 .row
                     .col-12.col-md
-                        .input-group.mb-3
-                            label.input-group-text(for='data_status') Статус
-                            select.form-select#data_status(name='status')
-                                option(value='')
-                                each status in statuses
-                                    option(value=status.id)= status.name
+                        +filterSelect('status', statuses, value =t('views.tasks.status'))
                     .col-12.col-md
-                        .input-group.mb-3
-                            label.input-group-text(for='data_executor') Исполнитель
-                            select.form-select#data_executor(name='executor')
-                                option(value='')
-                                each user in users
-                                    option(value=user.id)= `${user.firstName} ${user.lastName}`
+                        +filterSelect('executor', users, value =t('views.tasks.executor'))
                     .col-12.col-md
-                        .input-group.mb-3
-                            label.input-group-text(for='data_label') Метка
-                            select.form-select#data_label(name='label')
-                                option(value='')
-                                each label in labels
-                                    option(value=label.id)= label.name
+                        +filterSelect('label', labels, value =t('views.tasks.label'))
                 .mb-3.form-check
                     input.form-check-input#data_isCreatorUser(type='checkbox', name='isCreatorUser')
                     label.form-check-label(for='data_isCreatorUser')= t('views.tasks.myTasks')

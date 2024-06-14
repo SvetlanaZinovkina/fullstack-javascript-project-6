@@ -107,3 +107,22 @@ mixin checkbox(propertyName, labelName)
       class='form-check-label'
       for= inputId
     )= labelName
+
+mixin filterSelect(propertyName, variables, labelName)
+  - inputId = getInputId(propertyName)
+  .mb-3.input-group
+    label(
+      class='input-group-text'
+      for= inputId
+    )= labelName
+    select(
+      id= inputId
+      name= propertyName
+      class='form-select'
+    )&attributes(attributes)
+      option
+      each variable in variables
+        if propertyName === 'executor'
+          option(value= variable.id)= `${variable.firstName} ${variable.lastName}`
+        else
+          option(value= variable.id, selected= variable.id == query[propertyName])= variable.name
