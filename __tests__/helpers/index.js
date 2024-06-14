@@ -22,10 +22,10 @@ export const prepareData = async (app) => {
   const tasksLabels = getFixtureData('tasksLabels.json');
 
   await knex.transaction(async (trx) => {
-    await trx('users').insert(users).onConflict('name').ignore();
-    await trx('statuses').insert(statuses).onConflict('name').ignore();
-    await trx('tasks').insert(tasks).onConflict('name').ignore();
-    await trx('labels').insert(labels).onConflict('name').ignore();
-    await trx('tasksLabels').insert(tasksLabels).onConflict('name').ignore();
+    await trx('users').insert(users);
+    await trx('statuses').insert(statuses);
+    await trx('tasks').insert(tasks);
+    await trx('labels').insert(labels);
+    await trx('tasksLabels').insert(tasksLabels);
   });
 };
