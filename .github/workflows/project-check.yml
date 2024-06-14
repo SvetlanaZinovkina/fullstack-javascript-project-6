@@ -17,7 +17,7 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
       - run: make install
-      - run: make test
+      - run: make test -s
       - run: make lint
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v3.2.0
