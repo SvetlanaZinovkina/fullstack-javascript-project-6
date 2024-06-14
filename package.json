@@ -2,6 +2,7 @@
    "name": "@hexlet/code",
    "version": "0.1.0",
    "type": "module",
+   "main": "server/plugin.js",
    "description": "Task manager",
    "engines": {
       "node": ">=16.x"

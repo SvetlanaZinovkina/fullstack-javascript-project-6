@@ -59,24 +59,40 @@ export default (app) => {
       }
     })
     .delete('/users/:id', { name: 'deleteUser', preValidation: app.authenticate }, async (req, reply) => {
-      const userId = Number(req.params.id);
-      const currentUser = req.user;
-
-      if (userId !== currentUser.id) {
-        req.flash('error', i18next.t('flash.accessError'));
-        return reply.redirect(app.reverse('users'));
-      }
+      const { id } = req.params;
+      const currentUserId = req.user?.id;
 
       try {
-        await app.objection.models.user.query().deleteById(userId);
+        const selectedUser = await app.objection.models.user.query().findById(id);
+        const isCurrent = selectedUser.id === Number(currentUserId);
+
+        if (!selectedUser) {
+          req.flash('error', i18next.t('flash.users.delete.error'));
+          return reply.redirect(app.reverse('users'));
+        }
+
+        const tasks = await app.objection.models.task.query()
+          .where('creatorId', id)
+          .orWhere('executorId', id)
+          .first();
+
+        if (tasks) {
+          req.flash('error', i18next.t('flash.users.delete.error'));
+          return reply.redirect(app.reverse('users'));
+        }
+
+        if (!isCurrent) {
+          req.flash('error', i18next.t('flash.accessError'));
+          return reply.redirect(app.reverse('users'));
+        }
+
+        await app.objection.models.user.query().deleteById(id);
         req.logOut();
         req.flash('info', i18next.t('flash.users.delete.success'));
         reply.redirect(app.reverse('users'));
-      } catch ({ data }) {
+      } catch (error) {
         req.flash('error', i18next.t('flash.users.delete.error'));
         reply.redirect(app.reverse('users'));
       }
-
-      return reply;
     });
 };

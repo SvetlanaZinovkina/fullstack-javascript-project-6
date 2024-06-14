@@ -19,7 +19,7 @@ export default (app) => {
       reply.render('/statuses/update', { status });
       return reply;
     })
-    .post('/statuses', { preValidation: app.authenticate }, async (req, reply) => {
+    .post('/statuses', { name: 'newStatus', preValidation: app.authenticate }, async (req, reply) => {
       const status = new app.objection.models.status();
       // const { id: creatorId } = req.user;
       status.$set(req.body.data);
@@ -40,7 +40,9 @@ export default (app) => {
       const { id } = req.params;
 
       try {
-        await req.status.$query().update(req.body.data);
+        const validstatus = await app.objection.models.status.fromJson(req.body.data);
+        const selectedstatus = await app.objection.models.status.query().findOne({ id });
+        await selectedstatus.$query().patch(validstatus);
         req.flash('info', i18next.t('flash.statuses.update.success'));
         reply.redirect('/statuses');
       } catch ({ data }) {

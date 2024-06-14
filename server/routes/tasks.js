@@ -47,7 +47,7 @@ export default (app) => {
 
       return reply;
     })
-    .post('/tasks', async (req, reply) => {
+    .post('/tasks', { name: 'createTask', preValidation: app.authenticate }, async (req, reply) => {
       const { id: creatorId } = req.user;
       const task = new app.objection.models.task();
       const {

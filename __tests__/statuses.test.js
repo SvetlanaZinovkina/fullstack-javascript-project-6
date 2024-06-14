@@ -26,6 +26,11 @@ describe('test statuses CRUD', () => {
 
   beforeEach(async () => {
     await knex.migrate.latest();
+    await knex('statuses').truncate();
+    await knex('tasks').truncate();
+    await knex('labels').truncate();
+    await knex('users').truncate();
+    await knex('tasksLabels').truncate();
     await prepareData(app);
 
     const responseSignIn = await app.inject({

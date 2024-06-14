@@ -19,7 +19,7 @@ export default (app) => {
       reply.render('/labels/update', { label });
       return reply;
     })
-    .post('/labels', { preValidation: app.authenticate }, async (req, reply) => {
+    .post('/labels', { name: 'newLabel', preValidation: app.authenticate }, async (req, reply) => {
       const label = new app.objection.models.label();
       label.$set(req.body.data);
 
