@@ -17,8 +17,8 @@ block content
                                     option(value=status.id)= status.name
                     .col-12.col-md
                         .input-group.mb-3
-                            label.input-group-text(for='data_executorId') Исполнитель
-                            select.form-select#data_executorId(name='executor')
+                            label.input-group-text(for='data_executor') Исполнитель
+                            select.form-select#data_executor(name='executor')
                                 option(value='')
                                 each user in users
                                     option(value=user.id)= `${user.firstName} ${user.lastName}`
