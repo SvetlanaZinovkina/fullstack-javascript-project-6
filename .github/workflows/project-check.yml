@@ -1,5 +1,5 @@
 
-name: NodeJS CI
+name: project-check
 
 on:
   push:

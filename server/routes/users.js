@@ -58,6 +58,7 @@ export default (app) => {
         reply.redirect((`/users/${id}/edit`), { errors: data });
       }
     })
+  // eslint-disable-next-line consistent-return
     .delete('/users/:id', { name: 'deleteUser', preValidation: app.authenticate }, async (req, reply) => {
       const { id } = req.params;
       const currentUserId = req.user?.id;
