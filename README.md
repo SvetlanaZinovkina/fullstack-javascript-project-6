@@ -19,7 +19,6 @@ This project is a task manager built using Fastify and Pug.
 - [Linting](#linting)
 - [Deployment](#deployment)
 - [Built With](#built-with)
-- [License](#license)
 
 ## Installation
 
