@@ -31,3 +31,4 @@ jobs:
         run: make test
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          SESSION_KEY: ${{ secrets.SESSION_KEY }}
