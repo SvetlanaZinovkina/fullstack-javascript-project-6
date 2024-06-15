@@ -21,11 +21,13 @@ jobs:
         with:
           node-version: '18.x'
           cache: 'npm'
-      - name: Setup project
-        run: make setup
+      - name: Install  dependencies
+        run: make install
+      - name: Migration
+        run: make db-migrate
       - name: Run linter
         run: make lint
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       - name: Run tests
         run: make test
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
