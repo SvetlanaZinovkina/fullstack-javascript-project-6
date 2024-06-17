@@ -15,7 +15,7 @@ block content
                     .col-12.col-md
                         +filterSelect('label', labels, value =t('views.tasks.label'))
                 .mb-3.form-check
-                    input.form-check-input#data_isCreatorUser(type='checkbox', name='isCreatorUser')
+                    input.form-check-input#data_isCreatorUser(type='checkbox', name='isCreatorUser', checked=query.isCreatorUser)
                     label.form-check-label(for='data_isCreatorUser')= t('views.tasks.myTasks')
                 input.btn.btn-primary(type='submit', value=t('views.tasks.show'))
     .table-responsive
