@@ -34,7 +34,14 @@ export default (app) => {
       const user = new app.objection.models.user();
       user.$set(req.body.data);
 
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
       try {
+
+        if (!emailRegex.test(req.body.data.email)) {
+          throw new Error('Invalid email format');
+        }
+
         const validUser = await app.objection.models.user.fromJson(req.body.data);
         await app.objection.models.user.query().insert(validUser);
         req.flash('info', i18next.t('flash.users.create.success'));
