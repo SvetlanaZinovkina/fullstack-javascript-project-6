@@ -1,5 +1,3 @@
-# Task manager
-
 [![Node CI](https://github.com/hexlet-boilerplates/fastify-nodejs-application/workflows/Node%20CI/badge.svg)](https://github.com/hexlet-boilerplates/fastify-nodejs-application/actions)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/2b89897de437d3b8cb00/maintainability)](https://codeclimate.com/github/SvetlanaZinovkina/fullstack-javascript-project-6/maintainability)
