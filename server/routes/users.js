@@ -1,6 +1,7 @@
 // @ts-check
 
 import i18next from 'i18next';
+import yup from 'yup';
 
 export default (app) => {
   app
@@ -33,15 +34,12 @@ export default (app) => {
     .post('/users', async (req, reply) => {
       const user = new app.objection.models.user();
       user.$set(req.body.data);
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const schema = yup.object().shape({
+        email: yup.string().email().required(),
+      });
 
       try {
-
-        if (!emailRegex.test(req.body.data.email)) {
-          throw new Error('Invalid email format');
-        }
-
+        await schema.validate(req.body.data, { abortEarly: false });
         const validUser = await app.objection.models.user.fromJson(req.body.data);
         await app.objection.models.user.query().insert(validUser);
         req.flash('info', i18next.t('flash.users.create.success'));
