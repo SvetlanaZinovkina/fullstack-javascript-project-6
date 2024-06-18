@@ -22,8 +22,7 @@ block content
           label(for="data_firstName")= t('views.users.firstName')
           if errors && errors.firstName
             .form-control-feedback.invalid-feedback
-              each error in errors.firstName
-                p= error.message
+              p= errors.firstName
 
         .form-floating.mb-3
           input.form-control(
@@ -38,8 +37,7 @@ block content
           label(for="data_lastName")= t('views.users.lastName')
           if errors && errors.lastName
             .form-control-feedback.invalid-feedback
-              each error in errors.lastName
-                p= error.message
+              p= errors.lastName
 
         .form-floating.mb-3
           input.form-control(
@@ -53,8 +51,7 @@ block content
           label(for="data_email")= t('views.users.email')
           if errors && errors.email
             .form-control-feedback.invalid-feedback
-              each error in errors.email
-                p= error.message
+              p= errors.email
 
         .form-floating.mb-3
           input.form-control(
@@ -68,7 +65,6 @@ block content
           label(for="data_password")= t('views.users.password')
           if errors && errors.password
             .form-control-feedback.invalid-feedback
-              each error in errors.password
-                p= error.message
+              p= errors.password
 
         input.btn.btn-primary(type="submit", value=t('views.users.new.submit'))

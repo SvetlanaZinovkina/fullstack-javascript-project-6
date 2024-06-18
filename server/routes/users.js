@@ -35,7 +35,10 @@ export default (app) => {
       const user = new app.objection.models.user();
       user.$set(req.body.data);
       const schema = yup.object().shape({
+        firstName: yup.string().required().min(1),
+        lastName: yup.string().required().min(1),
         email: yup.string().email().required(),
+        password: yup.string().required().min(3),
       });
 
       try {
@@ -44,9 +47,18 @@ export default (app) => {
         await app.objection.models.user.query().insert(validUser);
         req.flash('info', i18next.t('flash.users.create.success'));
         reply.redirect(app.reverse('root'));
-      } catch ({ data }) {
-        req.flash('error', i18next.t('flash.users.create.error'));
-        reply.render('users/new', { user, errors: data });
+      } catch (error) {
+        if (error.name === 'ValidationError') {
+          const errors = {};
+          error.inner.forEach((e) => {
+            errors[e.path] = e.message;
+          });
+          req.flash('error', i18next.t('flash.users.create.error'));
+          reply.render('users/new', { user, errors });
+        } else {
+          req.flash('error', i18next.t('flash.users.create.error'));
+          reply.render('users/new', { user, errors: error.data });
+        }
       }
 
       return reply;
