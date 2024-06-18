@@ -6,7 +6,7 @@ block header
 block content
     form(action=`/users/${user.id}`, method='post')
         .form-floating.mb-3
-            input.form-control(id='data_firstName', name='data[firstName]', value=user.firstName, placeholder=t('views.users.firstName'), type='text')
+            input.form-control(id='data_firstName', name='data[firstName]', value=user.firstName, placeholder=t('views.users.firstName'), type='text', autofocus)
             label(for='data_firstName')= t('views.users.firstName')
         .form-floating.mb-3
             input.form-control(id='data_lastName', name='data[lastName]', value=user.lastName, placeholder=t('views.users.lastName'), type='text')

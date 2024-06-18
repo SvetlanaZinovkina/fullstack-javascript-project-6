@@ -16,7 +16,8 @@ block content
             value="",
             placeholder=t('views.users.firstName'),
             type="text",
-            class=(errors && errors.firstName) ? 'is-invalid' : ''
+            class=(errors && errors.firstName) ? 'is-invalid' : '',
+            autofocus
           )
           label(for="data_firstName")= t('views.users.firstName')
           if errors && errors.firstName
@@ -31,7 +32,8 @@ block content
             value="",
             placeholder=t('views.users.lastName'),
             type="text",
-            class=(errors && errors.lastName) ? 'is-invalid' : ''
+            class=(errors && errors.lastName) ? 'is-invalid' : '',
+            autofocus
           )
           label(for="data_lastName")= t('views.users.lastName')
           if errors && errors.lastName

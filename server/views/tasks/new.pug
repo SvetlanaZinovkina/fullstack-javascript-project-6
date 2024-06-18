@@ -13,6 +13,7 @@ block content
                 placeholder=t('views.tasks.nameTask')
                 type="text"
                 class=(errors && errors.name) ? 'is-invalid' : ''
+                autofocus
                 )
             label(for="data_name")= t('views.tasks.nameTask')
             if errors && errors.name

@@ -6,7 +6,7 @@ block header
 block content
     form(action=`/statuses/${status.id}`, method='post')
         .form-floating.mb-3
-            input.form-control(id='data_name', name='data[name]', value=status.name, placeholder=t('views.statuses.name'), type='text')
+            input.form-control(id='data_name', name='data[name]', value=status.name, placeholder=t('views.statuses.name'), type='text', autofocus)
             label(for='data_name')= t('views.statuses.name')
         input(type='hidden', name='_method', value='patch')
         input.btn.btn-primary(type='submit', value=t('views.statuses.update.submit'))

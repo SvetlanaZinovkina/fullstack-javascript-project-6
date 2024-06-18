@@ -12,7 +12,8 @@ block content
                 name="data[name]", value="",
                 placeholder=t('views.labels.name'),
                 type="text",
-                class=errors ? 'is-invalid' : ''
+                class=errors ? 'is-invalid' : '',
+                autofocus
             )
             label(for="data_name")= t('views.labels.name')
             if errors
