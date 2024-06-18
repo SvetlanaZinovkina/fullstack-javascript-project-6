@@ -13,7 +13,7 @@ export default (app) => {
       if (executor) tasksQuery.modify('filterExecutor', executor);
       if (status) tasksQuery.modify('filterStatus', status);
       if (label) tasksQuery.modify('filterLabel', label);
-      if (isCreatorUser) tasksQuery.modify('filterCreator', id);
+      if (isCreatorUser) tasksQuery.skipUndefined().modify('filterCreator', id);
 
       if (isCreatorUser === 'on') {
         tasksQuery.skipUndefined().modify('filterCreator', id || undefined);
